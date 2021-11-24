@@ -1,1 +1,2 @@
-# TicTacToe
+# Tic Tac Toe
+The game that took the world by storm at the Chicago World's Fain in 1908 is now available to you on the internet! The rules are simple, the gameplay straightforward, and the entertainment endless.
