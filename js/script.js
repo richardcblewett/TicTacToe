@@ -14,12 +14,14 @@ class Player {
     moves = [];
     won = false;
     recordMove = (move) => {    // takes a numerical play and adds it to a list of player moves 
-        this.moves.push(move); 
-        this.winningConditions();
+        this.moves.push(move);
+        if (this.moves.length >= 3) {
+            this.winningConditions();
+        }
         if (won === true) {
             //somehting happens;
         };
-    }; 
+    };
     winningConditions = () => { //input will be the moves by the player
         const checkDiagonal = (target) => {
             let diagonal1, diagonal2 = 0;
@@ -51,5 +53,5 @@ class Player {
             checkColumn(5) ||
             checkColumn(6)
         );
-    };
+    }; //end winning conditions
 }
