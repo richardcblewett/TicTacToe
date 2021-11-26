@@ -13,13 +13,14 @@ class Player {
     constructor(name) { this.name = name.toString(); };
     moves = [];
     won = false;
-    recordMove = (move) => { this.moves.push(move); }; // takes a numerical play and adds it to a list of player moves 
+    recordMove = (move) => {    // takes a numerical play and adds it to a list of player moves 
+        this.moves.push(move); 
+        this.winningConditions();
+        if (won === true) {
+            //somehting happens;
+        };
+    }; 
     winningConditions = () => { //input will be the moves by the player
-        //going to use a turnary statment because it is pretty
-        //subtract 1 to get the placement in array
-        //1,2,3 
-        //4,5,6
-        //7,8,9
         const checkDiagonal = (target) => {
             let diagonal1, diagonal2 = 0;
             this.moves.forEach((value) => {
@@ -28,29 +29,27 @@ class Player {
             });
             if (diagonal1 === true || diagonal2 === true) { return true; };
         }
-        const checkRow = () => {
+        const checkRow = (target) => {
             let row = 0;
+            this.moves.forEach((value) => {
+                if (Math.abs(target - value) === 1) { row++; }
+            });
+            if (row === 2) { return true; };
         }
-        const checkColumn = () => {
+        const checkColumn = (target) => {
             let column = 0;
+            this.moves.forEach((value) => {
+                if (Math.abs(target - value) === 3) { column++; }
+            });
+            if (column === 2) { return true; };
         }
-        if (this.moves.find(5)) {checkDiagonal();};
-        
-        
-        let check5s = () => { //we can check for permutations of a 5
-            if ((this.moves.find(5)) && (won === false)) {                 //second condition is a logical necessity.
-                let diagonal1, diagonal2, column, row = 0;
-                this.moves.forEach((number) => {
-                    if (Math.abs(number) === 4) { diagonal1++; }
-                    else if (Math.abs(number) === 2) { diagonal2++; }
-                    else if (Math.abs(number) === 3) { column++; }
-                    else if (Math.abs(number) === 1) { row++; }
-                });
-                if ((diagonal1 === 2) || (diagonal2 === 2) || (row === 2) || (column === 2)) { won = truel };
-            }
-            if ((this.moves.find(4) && won === false)) {
-
-            };
-        }
-    }
+        won = (checkDiagonal(5) ||
+            checkRow(2) ||
+            checkRow(5) ||
+            checkRow(8) ||
+            checkColumn(4) ||
+            checkColumn(5) ||
+            checkColumn(6)
+        );
+    };
 }
