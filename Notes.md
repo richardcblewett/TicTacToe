@@ -10,3 +10,11 @@ As a user, I should not be able to click the same square twice
 As a user, I should be shown a message when I win, lose or tie
 As a user, I should not be able to continue playing once I win, lose, or tie
 As a user, I should be able to play the game again without refreshing the page
+
+create a class for the gameboard
+- should have the gameboard populated when an instance is created
+- should have a way to reset the gameboard
+
+create a class for the two players
+- should have an array to track the moves
+- should provide way to check and see if any of the moves won the game (i feel this would be better on the player than the gameboard)
