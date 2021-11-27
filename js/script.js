@@ -45,7 +45,7 @@ class Player {
             });
             if (column === 2) { return true; };
         }
-        won = (checkDiagonal(5) ||
+        this.won = (checkDiagonal(5) ||
             checkRow(2) ||
             checkRow(5) ||
             checkRow(8) ||
