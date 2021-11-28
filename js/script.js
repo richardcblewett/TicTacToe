@@ -6,11 +6,14 @@ class Gameboard {
     createNewGameboard = () => {   //a new gameboord class comes with a grid, but a new game needs a clean one
         grid = [];
         for (let i = 0; i < 9; i++) { gameboard.push(''); } //blank-fill the array 
-        players = [(new Player('X')),(new Player('O'))];
+        players = [(new Player('X')), (new Player('O'))];
         turn = 0;
     }
-    players = [(new Player('X')),(new Player('O'))];
+    players = [(new Player('X')), (new Player('O'))];
     turn = 0;
+    gameover = () => {
+        if ((this.players[0].won === true) || (this.players[0].won === true)) { return true; }
+    }
 }
 class Player { //instances of this class should be part of the gameboaord class. 
     constructor(name) { this.name = name.toString(); };
@@ -27,30 +30,45 @@ class Player { //instances of this class should be part of the gameboaord class.
         };
     };
     winningConditions = () => { //input will be the moves by the player
-        const checkDiagonal = (target) => {
-            let diagonal1, diagonal2 = 0;
-            this.moves.forEach((value) => {
-                if (Math.abs(target - value) === 4) { diagonal1++; }
-                else if (Math.abs(target - value) === 2) { diagonal2++; }
-            });
-            if (diagonal1 === true || diagonal2 === true) { return true; };
+        const checkDiagonal1 = (target) => {
+            if (this.moves.findIndex(elem => elem === target) >= 0) {
+                let diagonal1 = 0;
+                this.moves.forEach((value) => {
+                    if (Math.abs(target - value) === 4) { diagonal1++; }
+                });
+                if (diagonal1 === 2) { console.log('Diagonal1' + target); return true; };
+            }
+        }
+        const checkDiagonal2 = (target) => {
+            if (this.moves.findIndex(elem => elem === target) >= 0) {
+                let diagonal2 = 0;
+                this.moves.forEach((value) => {
+                    if (Math.abs(target - value) === 2) { diagonal2++; }
+                });
+                if (diagonal2 === 2) { console.log('Diagonal2' + target); return true; };
+            }
         }
         const checkRow = (target) => {
-            let row = 0;
-            this.moves.forEach((value) => {
-                if (Math.abs(target - value) === 1) { row++; }
-            });
-            if (row === 2) { return true; };
+            if (this.moves.findIndex(elem => elem === target) >= 0) {
+                let row = 0;
+                this.moves.forEach((value) => {
+                    if (Math.abs(target - value) === 1) { row++; }
+                });
+                if (row === 2) { console.log('Row' + target); return true; };
+            }
         }
         const checkColumn = (target) => {
-            let column = 0;
-            this.moves.forEach((value) => {
-                if (Math.abs(target - value) === 3) { column++; }
-            });
-            if (column === 2) { return true; };
+            if (this.moves.findIndex(elem => elem === target) >= 0) {
+                let column = 0;
+                this.moves.forEach((value) => {
+                    if (Math.abs(target - value) === 3) { column++; }
+                });
+                if (column === 2) { console.log('Column' + target); return true; };
+            }
         }
         this.won = (
-            checkDiagonal(5) ||
+            checkDiagonal1(5) ||
+            checkDiagonal2(5) ||
             checkRow(2) ||
             checkRow(5) ||
             checkRow(8) ||
@@ -62,18 +80,13 @@ class Player { //instances of this class should be part of the gameboaord class.
 }
 
 const ttt = new Gameboard;
-//const X = new Player('X');
-//const O = new Player('O');
-//ttt.players.push(new Player('X'));
-//ttt.players.push(new Player('O'));
-let turn = 0;
 
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
-        if (elem.textContent.length === 0) {
-            elem.textContent = ttt.players[turn % 2].name;
-            ttt.players[turn % 2].recordMove(parseInt(elem.id));
-            turn++;
+        if ((elem.textContent.length === 0) && (ttt.gameover() !== true)) {
+            elem.textContent = ttt.players[ttt.turn % 2].name;
+            ttt.players[ttt.turn % 2].recordMove(parseInt(elem.id));
+            ttt.turn++;
         }
     })
 })
