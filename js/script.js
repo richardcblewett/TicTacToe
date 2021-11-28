@@ -2,12 +2,13 @@
 
 // creating gameboard. I want an array with 9 characters. it might be more visualy pleasing to do a 3x3, but tough noogies.
 class Gameboard {
-    grid = [, , , , , , , ,];//8 commas = 9 fields
     createNewGameboard = () => {   //a new gameboord class comes with a grid, but a new game needs a clean one
-        grid = [];
-        for (let i = 0; i < 9; i++) { gameboard.push(''); } //blank-fill the array 
-        players = [(new Player('X')), (new Player('O'))];
-        turn = 0;
+        this.players = [(new Player('X')), (new Player('O'))];
+        this.turn = 0;
+        console.log("new gameboard created");
+        document.querySelectorAll(".square").forEach(elem => {
+            elem.textContent = '';
+        })
     }
     players = [(new Player('X')), (new Player('O'))];
     turn = 0;
@@ -89,4 +90,7 @@ document.querySelectorAll(".square").forEach(elem => {
             ttt.turn++;
         }
     })
+})
+document.querySelector("button").addEventListener('click', () => {
+    ttt.createNewGameboard();
 })
