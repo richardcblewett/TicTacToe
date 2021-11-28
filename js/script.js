@@ -7,8 +7,8 @@ class Gameboard {
         grid = [];
         for (let i = 0; i < 9; i++) { gameboard.push(''); } //blank-fill the array 
     }
+    players = [];
 }
-
 class Player {
     constructor(name) { this.name = name.toString(); };
     moves = [];
@@ -19,7 +19,7 @@ class Player {
             this.winningConditions();
         }
         if (won === true) {
-            //somehting happens;
+            console.log(this.name);//somehting happens;
         };
     };
     winningConditions = () => { //input will be the moves by the player
@@ -45,7 +45,8 @@ class Player {
             });
             if (column === 2) { return true; };
         }
-        this.won = (checkDiagonal(5) ||
+        this.won = (
+            checkDiagonal(5) ||
             checkRow(2) ||
             checkRow(5) ||
             checkRow(8) ||
@@ -55,3 +56,19 @@ class Player {
         );
     }; //end winning conditions
 }
+
+const ttt = new Gameboard;
+const X = new Player('X');
+const O = new Player('O');
+ttt.players.push('X');
+ttt.players.push('O');
+let turn = 0;
+
+document.querySelectorAll(".square").forEach(elem => {
+    elem.addEventListener('click', () => {                  //if there's no value in the area
+        if (elem.textContent.length === 0) {
+            elem.textContent = ttt.players[turn % 2];
+            turn++;
+        }
+    })
+})
