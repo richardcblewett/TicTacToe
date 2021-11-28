@@ -1,11 +1,12 @@
 body {
     display: grid;
-    grid-template-columns: 1fr 600px 1fr;
+    grid-template-columns: 1fr 620px 1fr;
 }
 
 aside {
     background: rgb(255, 0, 255);
     grid-row: 1;
+    text-align: center;
 }
 
 #playerOne {
@@ -20,12 +21,16 @@ aside {
     background: purple;
     grid-column: 2; 
     display: grid; /*for the squares */
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: 200px 200px 200px;
+    grid-gap: 10px;
+    font-size: 10em;
 }
 
 .square {
-    height: 200px;
-    width: 200px;
     background: black;
     color: white;
+    justify-content: center;
+    align-items: center;
+    display:flex;
 }
