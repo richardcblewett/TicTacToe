@@ -5,8 +5,18 @@ body {
 
 aside {
     background: rgb(255, 0, 255);
-    grid-row: 1;
+    grid-row: 2;
     text-align: center;
+}
+
+header {
+    text-align: center;
+    grid-row: 1;
+    grid-column: 2;
+    padding: 5px;
+}
+#ttt {
+    font-size: 2em;
 }
 
 #playerOne {
@@ -17,10 +27,15 @@ aside {
     grid-column: 3;
 }
 
+button {
+}
+
 #gameboard {
     background: purple;
-    grid-column: 2; 
-    display: grid; /*for the squares */
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    /*for the squares */
     grid-template-columns: 200px 200px 200px;
     grid-template-rows: 200px 200px 200px;
     grid-gap: 10px;
@@ -32,5 +47,5 @@ aside {
     color: white;
     justify-content: center;
     align-items: center;
-    display:flex;
+    display: flex;
 }
