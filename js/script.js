@@ -12,7 +12,7 @@ class Gameboard {
     players = [(new Player('X')), (new Player('O'))];
     turn = 0;
     gameover = () => {
-        if ((this.players[0].won === true) || (this.players[0].won === true)) { return true; }
+        if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
     }
 }
 class Player { //instances of this class should be part of the gameboaord class. 
