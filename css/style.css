@@ -1,17 +1,31 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr 600px 1fr;
+}
+
 aside {
     background: rgb(255, 0, 255);
+    grid-row: 1;
+}
+
+#playerOne {
+    grid-column: 1;
+}
+
+#playerTwo {
+    grid-column: 3;
 }
 
 #gameboard {
-    background:purple;
-    /* height: 600px;
-    width: 600px; */
+    background: purple;
+    grid-column: 2; 
+    display: grid; /*for the squares */
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .square {
     height: 200px;
     width: 200px;
     background: black;
-    display: inline-block;
     color: white;
 }
