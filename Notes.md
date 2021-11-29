@@ -24,3 +24,9 @@ create a class for the gameboard
 
 create a class for the two players
 - should provide way to check and see if any of the moves won the game (i feel this would be better on the player than the gameboard)
+
+
+# Design Changes Along the Way
+When I add the ability to track the overall record of the players between games I needed to find a way to separate the "create new game" from the "create new players" mode. 
+- I accomplished this by creating a new method in the gameboard class that resets game variables without creating new players
+- I added a key:value boolean to the object to definitively say the current game was over and prevent overall records from being updated except on the final play of the game.
