@@ -89,7 +89,7 @@ document.querySelectorAll(".square").forEach(elem => {
             document.querySelector("#playerTwo").querySelector("div").textContent = 'LOSS';
         } else if (ttt.players[1].won === true) {
             document.querySelector("#playerOne").querySelector("div").textContent = 'LOSS';
-            document.querySelector("#playerTwo").querySelector("div").textContent = 'WIN';
+            document.querySelector("#playerTwo").querySelector("div").textContent = 'WIN!';
         } else if (ttt.turn === 8) { // this is the 9th choice and the board is full
             document.querySelector("#playerOne").querySelector("div").textContent = 'TIE';
             document.querySelector("#playerTwo").querySelector("div").textContent = 'TIE';

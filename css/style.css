@@ -2,7 +2,7 @@ body {
     background: #ff00ff;
     display: grid;
     grid-template-columns: 1fr 535px 1fr;
-    grid-template-rows: 1fr 535px 1fr;
+    grid-template-rows: 70px 535px 1fr;
 }
 
 #gameboard {
@@ -23,7 +23,8 @@ aside {
     text-align: center;
 }
 
-p { /*should only be used in player names*/
+p {
+    /*should only be used in player names*/
     font-size: 1.5em;
 }
 
@@ -34,7 +35,8 @@ header {
     padding: 5px;
 }
 
-#ttt { /*gameboard*/
+#ttt {
+    /*gameboard*/
     font-size: 2em;
 }
 
@@ -54,4 +56,43 @@ button {}
     justify-content: center;
     align-items: center;
     display: flex;
+}
+
+@media screen and (max-width: 800px) {
+    body {
+        /* change to grid*/
+        grid-template-columns: 1fr 200px 200px 1fr;
+        /* left padding, centers for gameboard, right padding*/
+        grid-template-rows: 70px 130px 200px 200px;
+        /* header, asides, gameboard*/
+    }
+
+    header {
+        grid-column: 1 / span 4;
+        grid-row: 1;
+    }
+
+    aside {
+        grid-row: 2;
+    }
+
+    #playerOne {
+        grid-column: 2;
+        border-right: 1px solid black;;
+    }
+
+    #playerTwo {
+        grid-column: 3;
+        border-left: 1px solid black;;
+    }
+
+    #gameboard {
+        grid-row: 3;
+        grid-column: 2 / span 2;
+        /*for the squares */
+        grid-template-columns: 130px 130px 130px;
+        grid-template-rows: 130px 130px 130px;
+        grid-gap: 5px;
+        font-size: 7em;
+    }
 }
