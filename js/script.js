@@ -2,7 +2,6 @@ class Gameboard {
     createNewGameboard = () => {   //a new gameboord class comes with a grid, but a new game needs a clean one
         this.players = [(new Player('X')), (new Player('O'))];
         this.turn = 0;
-        console.log("new gameboard created");
         document.querySelectorAll(".square").forEach(elem => {
             elem.textContent = '';
         })
@@ -19,13 +18,9 @@ class Player { //instances of this class should be part of the gameboaord class.
     won = false;
     recordMove = (move) => {    // takes a numerical play and adds it to a list of player moves 
         this.moves.push(move);
-        console.log('move recorded' + move);
         if (this.moves.length >= 3) {
             this.winningConditions();
         }
-        if (this.won === true) {
-            console.log(this.name + 'WINNING');//something happens;
-        };
     };
     winningConditions = () => { //input will be the moves by the player
         const checkDiagonal1 = (target) => {
@@ -34,7 +29,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 4) { diagonal1++; }
                 });
-                if (diagonal1 === 2) { console.log('Diagonal1' + target); return true; };
+                if (diagonal1 === 2) { return true; };
             }
         }
         const checkDiagonal2 = (target) => {
@@ -43,7 +38,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 2) { diagonal2++; }
                 });
-                if (diagonal2 === 2) { console.log('Diagonal2' + target); return true; };
+                if (diagonal2 === 2) { return true; };
             }
         }
         const checkRow = (target) => {
@@ -52,7 +47,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 1) { row++; }
                 });
-                if (row === 2) { console.log('Row' + target); return true; };
+                if (row === 2) { return true; };
             }
         }
         const checkColumn = (target) => {
@@ -61,7 +56,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 3) { column++; }
                 });
-                if (column === 2) { console.log('Column' + target); return true; };
+                if (column === 2) { return true; };
             }
         }
         this.won = (
