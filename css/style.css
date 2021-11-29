@@ -47,7 +47,9 @@ header {
     grid-column: 3;
 }
 
-button {}
+button {
+    /* so far, the default seems to look nice */
+}
 
 .square {
     background: black;
