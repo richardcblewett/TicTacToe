@@ -8,6 +8,7 @@ class Gameboard {
         })
         removeTurnIndicator();
         addTurnIndicator();
+        resetOverall();
     }
     gameover = () => {
         if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
@@ -17,6 +18,7 @@ class Player { //instances of this class should be part of the gameboaord class.
     constructor(name) { this.name = name.toString(); };
     moves = [];
     won = false;
+    resetOverall = () => this.overall = [0,0,0]; 
     recordMove = (move) => {    // takes a numerical play and adds it to a list of player moves 
         this.moves.push(move);
         if (this.moves.length >= 3) {
@@ -87,6 +89,10 @@ const addTurnIndicator = () => {
     if (ttt.turn % 2 === 0) { playerOneDiv.textContent = turnIndicator; }
     else { playerTwoDiv.textContent = turnIndicator; }
 }
+const resetOverall = () => {
+    ttt.players[0].resetOverall();
+    ttt.players[1].resetOverall();
+}
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
@@ -96,16 +102,22 @@ document.querySelectorAll(".square").forEach(elem => {
             elem.textContent = ttt.players[ttt.turn % 2].name;
             ttt.players[ttt.turn % 2].recordMove(parseInt(elem.id));
         }
-        
+
         if (ttt.players[0].won === true) {
             playerOneDiv.textContent = 'WIN!';
             playerTwoDiv.textContent = 'LOSS';
+            ttt.players[0].overall[0]++;
+            ttt.players[1].overall[1]++;
         } else if (ttt.players[1].won === true) {
             playerOneDiv.textContent = 'LOSS';
             playerTwoDiv.textContent = 'WIN!';
+            ttt.players[0].overall[1]++;
+            ttt.players[1].overall[0]++;
         } else if (ttt.turn === 8) { // this is the 9th choice and the board is full
             playerOneDiv.textContent = 'TIE';
             playerTwoDiv.textContent = 'TIE';
+            ttt.players[0].overall[2]++;
+            ttt.players[1].overall[2]++;
         } else {
             ttt.turn++;
             addTurnIndicator();
