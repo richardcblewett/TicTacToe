@@ -100,18 +100,21 @@ const addTurnIndicator = () => {
 const resetOverall = () => {
     ttt.players[0].overall = [0, 0, 0];
     ttt.players[1].overall = [0, 0, 0];
-    updateOverall('reset');
+    overallFiddlyBits();
     ttt.gameDone = false;
 }
+const overallFiddlyBits = () => {
+    let overall = ttt.players[0].overall;
+    let record = `(${overall[0]}-${overall[1]}-${overall[2]})`
+    playerOne.querySelector(".overall").textContent = record;
+    overall = ttt.players[1].overall;
+    record = `(${overall[0]}-${overall[1]}-${overall[2]})`
+    playerTwo.querySelector(".overall").textContent = record;
+}
 const updateOverall = (parameter) => {
-    if (ttt.gameDone === false) {
-        if (parameter !== 'reset') {playSound('horn')};
-        let overall = ttt.players[0].overall;
-        let record = `(${overall[0]}-${overall[1]}-${overall[2]})`
-        playerOne.querySelector(".overall").textContent = record;
-        overall = ttt.players[1].overall;
-        record = `(${overall[0]}-${overall[1]}-${overall[2]})`
-        playerTwo.querySelector(".overall").textContent = record;
+    if (ttt.gameDone === false) { //only runs once
+        playSound('horn');
+        overallFiddlyBits();
         ttt.gameDone = true;
     }
 }
@@ -119,7 +122,7 @@ const playSound = (sound) => {
     let audio;
     switch (sound) {
         case 'swoosh':
-            audio = new Audio("assets/swoosh.mp3");    
+            audio = new Audio("assets/swoosh.mp3");
             break;
         case 'ding':
             audio = new Audio("assets/ding.mp3");
@@ -134,7 +137,7 @@ const playSound = (sound) => {
             audio = false;
             break;
     }
-    if (audio !== false) {audio.play();}
+    if (audio !== false) { audio.play(); }
 }
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
