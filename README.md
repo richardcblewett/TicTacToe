@@ -6,4 +6,4 @@ There are two players who alternate turns. X goes first.
 The object of the game is to get three X's or three )'s in a row.
 
 # Design: 
-- [Notes.md]{Notes.md}
+- [Notes.md](/Notes.md)
