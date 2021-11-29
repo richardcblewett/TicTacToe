@@ -18,12 +18,11 @@ body {
 }
 
 aside {
-    background: #ff00ff;
     grid-row: 2;
     text-align: center;
 }
 
-p {
+.playerNames {
     /*should only be used in player names*/
     font-size: 1.5em;
 }
@@ -48,7 +47,9 @@ header {
     grid-column: 3;
 }
 
-button {}
+button {
+    /* so far, the default seems to look nice */
+}
 
 .square {
     background: black;
