@@ -4,11 +4,12 @@ class Gameboard {
         this.players = [(new Player('X')), (new Player('O'))];
         this.turn = 0;
         this.gameDone = false;
-        document.querySelectorAll(".square").forEach(elem => {
-            elem.textContent = '';
-        })
-        removeTurnIndicator();
-        addTurnIndicator();
+    }
+    resetGame = () => {
+        this.players[0].resetGame();
+        this.players[1].resetGame();
+        this.turn = 0;
+        this.gameDone = false;
     }
     gameover = () => {
         if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
@@ -19,6 +20,10 @@ class Player { //instances of this class should be part of the gameboaord class.
     moves = [];
     won = false;
     overall = [0, 0, 0];
+    resetGame = () => {
+        this.won = false;
+        this.moves = [];
+    }
     recordMove = (move) => {    // takes a numerical play and adds it to a list of player moves 
         this.moves.push(move);
         if (this.moves.length >= 3) {
@@ -80,6 +85,9 @@ const playerOneTurn = playerOne.querySelector(".turn");
 const playerTwo = document.querySelector("#playerTwo");
 const playerTwoTurn = playerTwo.querySelector(".turn");
 //functions
+const setSquares = () => {
+    document.querySelectorAll(".square").forEach(elem => { elem.textContent = ''; });
+}
 const removeTurnIndicator = () => {
     playerOneTurn.textContent = '';
     playerTwoTurn.textContent = '';
@@ -139,8 +147,12 @@ document.querySelectorAll(".square").forEach(elem => {
     })
 })
 document.querySelector("#newGame").addEventListener('click', () => {
-    ttt.createNewGameboard();
+    ttt.resetGame();
+    setSquares();
+    removeTurnIndicator();
+    addTurnIndicator();
 })
+
 document.querySelector("#resetOverall").addEventListener('click', () => {
     resetOverall();
 })
