@@ -1,3 +1,4 @@
+//Classes
 class Gameboard {
     createNewGameboard = () => {   //a new gameboord class comes with a grid, but a new game needs a clean one
         this.players = [(new Player('X')), (new Player('O'))];
@@ -71,23 +72,40 @@ class Player { //instances of this class should be part of the gameboaord class.
         );
     }; //end winning conditions
 }
-
+//DOM variables 
+const playerOne = document.querySelector("#playerOne");
+const playerOneDiv = playerOne.querySelector("div");
+const playerTwo = document.querySelector("#playerTwo");
+const playerTwoDiv = playerTwo.querySelector("div");
+//functions
+const removeTurnIndicator = () => {
+    playerOneDiv.textContent = '';
+    playerTwoDiv.textContent = '';
+}
+const addTurnIndicator = () => {
+    const turnIndicator = 'Click any blank square';
+    if (ttt.turn % 2 === 0) { playerOneDiv.textContent = turnIndicator; }
+    else { playerTwoDiv.textContent = turnIndicator; }
+}
+//Event listeners
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
+        //check for blank space
         if ((elem.textContent.length === 0) && (ttt.gameover() !== true)) {
             removeTurnIndicator();
             elem.textContent = ttt.players[ttt.turn % 2].name;
             ttt.players[ttt.turn % 2].recordMove(parseInt(elem.id));
         }
+        
         if (ttt.players[0].won === true) {
-            document.querySelector("#playerOne").querySelector("div").textContent = 'WIN!';
-            document.querySelector("#playerTwo").querySelector("div").textContent = 'LOSS';
+            playerOneDiv.textContent = 'WIN!';
+            playerTwoDiv.textContent = 'LOSS';
         } else if (ttt.players[1].won === true) {
-            document.querySelector("#playerOne").querySelector("div").textContent = 'LOSS';
-            document.querySelector("#playerTwo").querySelector("div").textContent = 'WIN!';
+            playerOneDiv.textContent = 'LOSS';
+            playerTwoDiv.textContent = 'WIN!';
         } else if (ttt.turn === 8) { // this is the 9th choice and the board is full
-            document.querySelector("#playerOne").querySelector("div").textContent = 'TIE';
-            document.querySelector("#playerTwo").querySelector("div").textContent = 'TIE';
+            playerOneDiv.textContent = 'TIE';
+            playerTwoDiv.textContent = 'TIE';
         } else {
             ttt.turn++;
             addTurnIndicator();
@@ -97,20 +115,6 @@ document.querySelectorAll(".square").forEach(elem => {
 document.querySelector("button").addEventListener('click', () => {
     ttt.createNewGameboard();
 })
-
-
-const removeTurnIndicator = () => {
-    document.querySelector("#playerOne").querySelector("div").textContent = '';
-    document.querySelector("#playerTwo").querySelector("div").textContent = '';
-}
-const addTurnIndicator = () => {
-    const turnIndicator = 'Click any blank square';
-    if (ttt.turn % 2 === 0) {
-        document.querySelector("#playerOne").querySelector("div").textContent = turnIndicator;
-    } else {
-        document.querySelector("#playerTwo").querySelector("div").textContent = turnIndicator;
-    }
-}
-
+//start the game
 const ttt = new Gameboard;
 ttt.createNewGameboard();
