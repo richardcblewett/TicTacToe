@@ -32,8 +32,8 @@ header {
     padding: 5px;
 }
 
-#ttt {
-    /* gameboard */
+#ttt { 
+    font-size: 2em;
 }
 
 #playerOne {
