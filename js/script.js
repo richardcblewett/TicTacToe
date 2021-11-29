@@ -5,7 +5,7 @@ class Gameboard {
         this.turn = 0;
         this.gameDone = false;
     }
-    resetGame = () => {
+    resetTheGame = () => {
         this.players[0].resetGame();
         this.players[1].resetGame();
         this.turn = 0;
@@ -98,12 +98,14 @@ const addTurnIndicator = () => {
     else { playerTwoTurn.textContent = turnIndicator; }
 }
 const resetOverall = () => {
-    ttt.players[0] = [0, 0, 0];
-    ttt.players[1] = [0, 0, 0];
+    ttt.players[0].overall = [0, 0, 0];
+    ttt.players[1].overall = [0, 0, 0];
+    ttt.gameDone = false;
     updateOverall();
 }
 const updateOverall = () => {
     if (ttt.gameDone === false) {
+        playSound('horn');
         let overall = ttt.players[0].overall;
         let record = `(${overall[0]}-${overall[1]}-${overall[2]})`
         playerOne.querySelector(".overall").textContent = record;
@@ -113,11 +115,33 @@ const updateOverall = () => {
         ttt.gameDone = true;
     }
 }
+const playSound = (sound) => {
+    let audio;
+    switch (sound) {
+        case 'swoosh':
+            audio = new Audio("assets/swoosh.mp3");    
+            break;
+        case 'ding':
+            audio = new Audio("assets/ding.mp3");
+            break;
+        case 'tone':
+            audio = new Audio("assets/tone.mp3");
+            break;
+        case 'horn':
+            audio = new Audio("assets/horn.mp3");
+            break;
+        default:
+            audio = false;
+            break;
+    }
+    if (audio !== false) {audio.play();}
+}
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
         //check for blank space
         if ((elem.textContent.length === 0) && (ttt.gameover() !== true)) {
+            playSound('swoosh');
             removeTurnIndicator();
             elem.textContent = ttt.players[ttt.turn % 2].name;
             ttt.players[ttt.turn % 2].recordMove(parseInt(elem.id));
@@ -147,13 +171,15 @@ document.querySelectorAll(".square").forEach(elem => {
     })
 })
 document.querySelector("#newGame").addEventListener('click', () => {
-    ttt.resetGame();
+    playSound('tone')
+    ttt.resetTheGame();
     setSquares();
     removeTurnIndicator();
     addTurnIndicator();
 })
 
 document.querySelector("#resetOverall").addEventListener('click', () => {
+    playSound('ding');
     resetOverall();
 })
 //start the game

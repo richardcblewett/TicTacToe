@@ -16,6 +16,7 @@ As a user, I should be able to play the game again without refreshing the page D
 ## Bonus:
 As a user, I should be able to play the game on a mobile device. DONE
 As a user, I should be able to track overall record. DONE
+As a user, I want a nice sound to play when I click a space. 
 
 # Javascript:
 create a class for the gameboard
