@@ -1,6 +1,3 @@
-// GAME LOGIC
-
-// creating gameboard. I want an array with 9 characters. it might be more visualy pleasing to do a 3x3, but tough noogies.
 class Gameboard {
     createNewGameboard = () => {   //a new gameboord class comes with a grid, but a new game needs a clean one
         this.players = [(new Player('X')), (new Player('O'))];
@@ -9,9 +6,9 @@ class Gameboard {
         document.querySelectorAll(".square").forEach(elem => {
             elem.textContent = '';
         })
+        removeTurnIndicator();
+        addTurnIndicator();
     }
-    players = [(new Player('X')), (new Player('O'))];
-    turn = 0;
     gameover = () => {
         if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
     }
@@ -80,17 +77,45 @@ class Player { //instances of this class should be part of the gameboaord class.
     }; //end winning conditions
 }
 
-const ttt = new Gameboard;
-
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
         if ((elem.textContent.length === 0) && (ttt.gameover() !== true)) {
+            removeTurnIndicator();
             elem.textContent = ttt.players[ttt.turn % 2].name;
             ttt.players[ttt.turn % 2].recordMove(parseInt(elem.id));
+        }
+        if (ttt.players[0].won === true) {
+            document.querySelector("#playerOne").querySelector("div").textContent = 'WIN!';
+            document.querySelector("#playerTwo").querySelector("div").textContent = 'LOSS';
+        } else if (ttt.players[1].won === true) {
+            document.querySelector("#playerOne").querySelector("div").textContent = 'LOSS';
+            document.querySelector("#playerTwo").querySelector("div").textContent = 'WIN';
+        } else if (ttt.turn === 8) { // this is the 9th choice and the board is full
+            document.querySelector("#playerOne").querySelector("div").textContent = 'TIE';
+            document.querySelector("#playerTwo").querySelector("div").textContent = 'TIE';
+        } else {
             ttt.turn++;
+            addTurnIndicator();
         }
     })
 })
 document.querySelector("button").addEventListener('click', () => {
     ttt.createNewGameboard();
 })
+
+
+const removeTurnIndicator = () => {
+    document.querySelector("#playerOne").querySelector("div").textContent = '';
+    document.querySelector("#playerTwo").querySelector("div").textContent = '';
+}
+const addTurnIndicator = () => {
+    const turnIndicator = 'Click any blank square';
+    if (ttt.turn % 2 === 0) {
+        document.querySelector("#playerOne").querySelector("div").textContent = turnIndicator;
+    } else {
+        document.querySelector("#playerTwo").querySelector("div").textContent = turnIndicator;
+    }
+}
+
+const ttt = new Gameboard;
+ttt.createNewGameboard();
