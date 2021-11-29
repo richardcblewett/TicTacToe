@@ -15,6 +15,7 @@ As a user, I should be able to play the game again without refreshing the page D
 
 ## Bonus:
 As a user, I should be able to play the game on a mobile device. DONE
+As a user, I should be able to keep track of my overall record.
 
 # Javascript:
 create a class for the gameboard
