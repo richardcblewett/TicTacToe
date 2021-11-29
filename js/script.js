@@ -188,3 +188,4 @@ document.querySelector("#resetOverall").addEventListener('click', () => {
 //start the game
 const ttt = new Gameboard;
 ttt.createNewGameboard();
+addTurnIndicator();
