@@ -100,12 +100,12 @@ const addTurnIndicator = () => {
 const resetOverall = () => {
     ttt.players[0].overall = [0, 0, 0];
     ttt.players[1].overall = [0, 0, 0];
+    updateOverall('reset');
     ttt.gameDone = false;
-    updateOverall();
 }
-const updateOverall = () => {
+const updateOverall = (parameter) => {
     if (ttt.gameDone === false) {
-        playSound('horn');
+        if (parameter !== 'reset') {playSound('horn')};
         let overall = ttt.players[0].overall;
         let record = `(${overall[0]}-${overall[1]}-${overall[2]})`
         playerOne.querySelector(".overall").textContent = record;

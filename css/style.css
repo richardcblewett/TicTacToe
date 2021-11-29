@@ -45,7 +45,7 @@ header {
 }
 
 button {
-    /* so far, the default seems to look nice */
+    min-width: 105px;
 }
 
 .square {
