@@ -5,7 +5,7 @@ class Gameboard {
         this.turn = 0;
         this.gameDone = false;
     }
-    resetGame = () => {
+    resetTheGame = () => {
         this.players[0].resetGame();
         this.players[1].resetGame();
         this.turn = 0;
@@ -98,8 +98,9 @@ const addTurnIndicator = () => {
     else { playerTwoTurn.textContent = turnIndicator; }
 }
 const resetOverall = () => {
-    ttt.players[0] = [0, 0, 0];
-    ttt.players[1] = [0, 0, 0];
+    ttt.players[0].overall = [0, 0, 0];
+    ttt.players[1].overall = [0, 0, 0];
+    ttt.gameDone = false;
     updateOverall();
 }
 const updateOverall = () => {
@@ -113,11 +114,16 @@ const updateOverall = () => {
         ttt.gameDone = true;
     }
 }
+const playSound = () => {
+    let audio = new Audio("assets/swoosh.mp3");
+    audio.play();
+}
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
         //check for blank space
         if ((elem.textContent.length === 0) && (ttt.gameover() !== true)) {
+            playSound();
             removeTurnIndicator();
             elem.textContent = ttt.players[ttt.turn % 2].name;
             ttt.players[ttt.turn % 2].recordMove(parseInt(elem.id));
@@ -147,7 +153,7 @@ document.querySelectorAll(".square").forEach(elem => {
     })
 })
 document.querySelector("#newGame").addEventListener('click', () => {
-    ttt.resetGame();
+    ttt.resetTheGame();
     setSquares();
     removeTurnIndicator();
     addTurnIndicator();
