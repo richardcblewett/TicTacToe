@@ -145,7 +145,6 @@ const playSound = (sound) => {
 }
 const showFinalOutcome = () => {
     let values = document.querySelector("#gameboard").getBoundingClientRect();
-    console.log(ttt.winningPlay);
     let top, left, degree = 0;
     let width = 535;
     //just need starting point and length and angle (if any)
@@ -186,18 +185,18 @@ const showFinalOutcome = () => {
         case 'D':
             left = values.left;
             switch (ttt.winningPlay.charAt(1)) {
-                case '1':
+                case '1': //  diagonal up
                     top = values.top;
                     degree = 45;
                     break;
-                case '2':
+                case '2': // diagonal down
                     top = values.bottom;
                     degree = 315;
                     break;
                 default:
                     break;
             }
-            width = Math.sqrt(2 * (535 ** 2));
+            width = Math.sqrt(2 * (535 ** 2)); // the length of a line bisecting the square 
             break;
         default:
             break;
@@ -215,8 +214,6 @@ const showFinalOutcome = () => {
         line.style.transform = `rotate(${degree}deg)`;
         line.style.transformOrigin = 'center left';
         document.body.appendChild(line);
-        console.log(left);
-        console.log(top)
     }
     drawLine();
 
