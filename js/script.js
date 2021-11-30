@@ -144,69 +144,82 @@ const playSound = (sound) => {
     if (audio !== false) { audio.play(); }
 }
 const showFinalOutcome = () => {
-    let begin = [0,0];  // begin = left,top; end = right, bottom; 
-    let end = [0];
     let values = document.querySelector("#gameboard").getBoundingClientRect();
     console.log(ttt.winningPlay);
+    let top, left, degree = 0;
+    let width = 535;
+    //just need starting point and length and angle (if any)
     switch (ttt.winningPlay.charAt(0)) {
         case 'R': //row
-            begin[0] = values.left;
-            end[0] = values.right;
+            left = values.left;
             switch (ttt.winningPlay.charAt(1)) {
                 case '2':
-                    begin[1] = values.top + (values.height - 10) / 6; // should give half of a square
+                    top = values.top + (values.height - 10) / 6; // should give half of a square
+                    break;
                 case '5':
-                    begin[1] = values.top + values.height / 2; // should give halfway
+                    top = values.top + values.height / 2; // should give halfway
+                    break;
                 case '8':
-                    begin[1] = values.bottom - (values.height - 10) / 6; // should give half a square from the bottom
+                    top = values.bottom - (values.height - 10) / 6; // should give half a square from the bottom
+                    break;
                 default:
                     break;
             }
-            end[1] = begin[1];
             break;
         case 'C':
-            begin[1] = values.top;
-            end[1] = values.right;
+            top = values.top;
             switch (ttt.winningPlay.charAt(1)) {
                 case '4':
-                    begin[0] = values.left + (values.width - 10) / 6; // should give half of a square
+                    left = values.left + (values.width - 10) / 6; // should give half of a square
+                    break;
                 case '5':
-                    begin[0] = values.left + values.width / 2; // should give halfway
+                    left = values.left + values.width / 2; // should give halfway
+                    break;
                 case '6':
-                    begin[0] = values.right - (values.width - 10) / 6; // should give half a square from the right
+                    left = values.right - (values.width - 10) / 6; // should give half a square from the right
+                    break;
                 default:
                     break;
             }
-            end[0] = begin[0];
+            degree = 90;
             break;
         case 'D':
-            begin[0] = values.left;
-            end[0] = values.right;
+            left = values.left;
             switch (ttt.winningPlay.charAt(1)) {
                 case '1':
-                    begin[1] = values.top;
-                    end[1] = values.bottom;
+                    top = values.top;
+                    degree = 45;
+                    break;
                 case '2':
-                    begin[1] = values.bottom;
-                    end[1] = values.top;
+                    top = values.bottom;
+                    degree = 315;
+                    break;
                 default:
                     break;
             }
+            width = Math.sqrt(2 * (535 ** 2));
             break;
         default:
             break;
     }
-    console.log(begin);
-    console.log(end);
+
     let drawLine = () => {
-        line = document.createElement('span');
-        line.beginPath();
-        line.moveTo(begin[0],begin[1]);
-        line.lineTo(end[0],end[1]);
-        line.stroke();
-        document.body.appendChild(line);    
+        let line = document.createElement('span');
+        line.id = 'line';
+        line.style.position = 'absolute';
+        line.style.height = '9px';
+        line.style.width = `${width}px`;
+        line.style.left = `${left}px`;
+        line.style.top = `${top - 4}px`;
+        line.style.backgroundColor = '#800080';
+        line.style.transform = `rotate(${degree}deg)`;
+        line.style.transformOrigin = 'center left';
+        document.body.appendChild(line);
+        console.log(left);
+        console.log(top)
     }
     drawLine();
+
 }
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
@@ -245,6 +258,7 @@ document.querySelectorAll(".square").forEach(elem => {
 document.querySelector("#newGame").addEventListener('click', () => {
     playSound('tone')
     ttt.resetGameboard();
+    if (document.querySelectorAll("#line").length > 0) { document.querySelector("#line").remove(); }
     setSquares();
     removeTurnIndicator();
     addTurnIndicator();
