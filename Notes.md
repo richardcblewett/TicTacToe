@@ -17,6 +17,7 @@ The outcome of the game should be communicated to the players.
 - As a user, I should be able to play the game on a mobile device. DONE
 - As a user, I should be able to track overall record. DONE
 - As a user, I want a nice sound to play when I click a space. DONE
+- As a user, I want a line through the winning combination. DONE 
 - As a user, I want to play against the computer. IN PROGRESS
 
 # Javascript Ideas

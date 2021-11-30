@@ -165,7 +165,7 @@ const showFinalOutcome = () => {
                     break;
             }
             break;
-        case 'C':
+        case 'C': //column
             top = values.top;
             switch (ttt.winningPlay.charAt(1)) {
                 case '4':
@@ -182,14 +182,14 @@ const showFinalOutcome = () => {
             }
             degree = 90;
             break;
-        case 'D':
+        case 'D': //diagonal
             left = values.left;
             switch (ttt.winningPlay.charAt(1)) {
-                case '1': //  diagonal up
+                case '1': //  diagonal going down
                     top = values.top;
                     degree = 45;
                     break;
-                case '2': // diagonal down
+                case '2': // diagonal going up
                     top = values.bottom;
                     degree = 315;
                     break;
@@ -201,7 +201,6 @@ const showFinalOutcome = () => {
         default:
             break;
     }
-
     let drawLine = () => {
         let line = document.createElement('span');
         line.id = 'line';
@@ -216,7 +215,6 @@ const showFinalOutcome = () => {
         document.body.appendChild(line);
     }
     drawLine();
-
 }
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
