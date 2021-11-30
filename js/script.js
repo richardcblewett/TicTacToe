@@ -1,15 +1,18 @@
 //Classes
 class Gameboard {
-    createNewGameboard = () => {   //a new gameboord class comes with a grid, but a new game needs a clean one
+    createNewGameboard = () => {   //a new gameboard class comes with a grid, but a new game needs a clean one
         this.players = [(new Player('X')), (new Player('O'))];
-        this.turn = 0;
-        this.gameDone = false;
+        this.startingOver();
     }
-    resetTheGame = () => {
+    resetGameboard = () => {
         this.players[0].resetGame();
         this.players[1].resetGame();
+        this.startingOver();
+    }
+    startingOver = () => {
         this.turn = 0;
         this.gameDone = false;
+        this.winningPlay = '';
     }
     gameover = () => {
         if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
@@ -31,40 +34,40 @@ class Player { //instances of this class should be part of the gameboaord class.
         }
     };
     winningConditions = () => { //input will be the moves by the player
-        const checkDiagonal1 = (target) => {
+        const checkDiagonal1 = (target) => { //   "\"
             if (this.moves.findIndex(elem => elem === target) >= 0) {
                 let diagonal1 = 0;
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 4) { diagonal1++; }
                 });
-                if (diagonal1 === 2) { return true; };
+                if (diagonal1 === 2) { ttt.winningPlay = 'D1'; return true; };
             }
         }
-        const checkDiagonal2 = (target) => {
+        const checkDiagonal2 = (target) => { //   "/"
             if (this.moves.findIndex(elem => elem === target) >= 0) {
                 let diagonal2 = 0;
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 2) { diagonal2++; }
                 });
-                if (diagonal2 === 2) { return true; };
+                if (diagonal2 === 2) { ttt.winningPlay = 'D2'; return true; };
             }
         }
-        const checkRow = (target) => {
+        const checkRow = (target) => { //   "-"
             if (this.moves.findIndex(elem => elem === target) >= 0) {
                 let row = 0;
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 1) { row++; }
                 });
-                if (row === 2) { return true; };
+                if (row === 2) { ttt.winningPlay = 'R' + target; return true; };
             }
         }
-        const checkColumn = (target) => {
+        const checkColumn = (target) => { //   "|"
             if (this.moves.findIndex(elem => elem === target) >= 0) {
                 let column = 0;
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 3) { column++; }
                 });
-                if (column === 2) { return true; };
+                if (column === 2) { ttt.winningPlay = 'C' + target; return true; };
             }
         }
         this.won = (
@@ -85,7 +88,7 @@ const playerOneTurn = playerOne.querySelector(".turn");
 const playerTwo = document.querySelector("#playerTwo");
 const playerTwoTurn = playerTwo.querySelector(".turn");
 //functions
-const setSquares = () => {
+const setSquares = () => { // sets the tiles to blank
     document.querySelectorAll(".square").forEach(elem => { elem.textContent = ''; });
 }
 const removeTurnIndicator = () => {
@@ -100,10 +103,10 @@ const addTurnIndicator = () => {
 const resetOverall = () => {
     ttt.players[0].overall = [0, 0, 0];
     ttt.players[1].overall = [0, 0, 0];
-    overallFiddlyBits();
+    updateOverall();
     ttt.gameDone = false;
 }
-const overallFiddlyBits = () => {
+const updateOverall = () => {
     let overall = ttt.players[0].overall;
     let record = `(${overall[0]}-${overall[1]}-${overall[2]})`
     playerOne.querySelector(".overall").textContent = record;
@@ -111,10 +114,11 @@ const overallFiddlyBits = () => {
     record = `(${overall[0]}-${overall[1]}-${overall[2]})`
     playerTwo.querySelector(".overall").textContent = record;
 }
-const updateOverall = (parameter) => {
+const finishGame = (parameter) => {
     if (ttt.gameDone === false) { //only runs once
         playSound('horn');
-        overallFiddlyBits();
+        showFinalOutcome();
+        updateOverall();
         ttt.gameDone = true;
     }
 }
@@ -139,6 +143,79 @@ const playSound = (sound) => {
     }
     if (audio !== false) { audio.play(); }
 }
+const showFinalOutcome = () => {
+    let values = document.querySelector("#gameboard").getBoundingClientRect();
+    let top, left, degree = 0;
+    let width = 535;
+    //just need starting point and length and angle (if any)
+    switch (ttt.winningPlay.charAt(0)) {
+        case 'R': //row
+            left = values.left;
+            switch (ttt.winningPlay.charAt(1)) {
+                case '2':
+                    top = values.top + (values.height - 10) / 6; // should give half of a square
+                    break;
+                case '5':
+                    top = values.top + values.height / 2; // should give halfway
+                    break;
+                case '8':
+                    top = values.bottom - (values.height - 10) / 6; // should give half a square from the bottom
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case 'C': //column
+            top = values.top;
+            switch (ttt.winningPlay.charAt(1)) {
+                case '4':
+                    left = values.left + (values.width - 10) / 6; // should give half of a square
+                    break;
+                case '5':
+                    left = values.left + values.width / 2; // should give halfway
+                    break;
+                case '6':
+                    left = values.right - (values.width - 10) / 6; // should give half a square from the right
+                    break;
+                default:
+                    break;
+            }
+            degree = 90;
+            break;
+        case 'D': //diagonal
+            left = values.left;
+            switch (ttt.winningPlay.charAt(1)) {
+                case '1': //  diagonal going down
+                    top = values.top;
+                    degree = 45;
+                    break;
+                case '2': // diagonal going up
+                    top = values.bottom;
+                    degree = 315;
+                    break;
+                default:
+                    break;
+            }
+            width = Math.sqrt(2 * (535 ** 2)); // the length of a line bisecting the square 
+            break;
+        default:
+            break;
+    }
+    let drawLine = () => {
+        let line = document.createElement('span');
+        line.id = 'line';
+        line.style.position = 'absolute';
+        line.style.height = '9px';
+        line.style.width = `${width}px`;
+        line.style.left = `${left}px`;
+        line.style.top = `${top - 4}px`;
+        line.style.backgroundColor = '#800080';
+        line.style.transform = `rotate(${degree}deg)`;
+        line.style.transformOrigin = 'center left';
+        document.body.appendChild(line);
+    }
+    drawLine();
+}
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
@@ -154,19 +231,19 @@ document.querySelectorAll(".square").forEach(elem => {
             playerTwoTurn.textContent = 'LOSS';
             ttt.players[0].overall[0]++;
             ttt.players[1].overall[1]++;
-            updateOverall();
+            finishGame();
         } else if (ttt.players[1].won === true) {
             playerOneTurn.textContent = 'LOSS';
             playerTwoTurn.textContent = 'WIN!';
             ttt.players[0].overall[1]++;
             ttt.players[1].overall[0]++;
-            updateOverall();
+            finishGame();
         } else if (ttt.turn === 8) { // this is the 9th choice and the board is full
             playerOneTurn.textContent = 'TIE';
             playerTwoTurn.textContent = 'TIE';
             ttt.players[0].overall[2]++;
             ttt.players[1].overall[2]++;
-            updateOverall();
+            finishGame();
         } else {
             ttt.turn++;
             addTurnIndicator();
@@ -175,12 +252,12 @@ document.querySelectorAll(".square").forEach(elem => {
 })
 document.querySelector("#newGame").addEventListener('click', () => {
     playSound('tone')
-    ttt.resetTheGame();
+    ttt.resetGameboard();
+    if (document.querySelectorAll("#line").length > 0) { document.querySelector("#line").remove(); }
     setSquares();
     removeTurnIndicator();
     addTurnIndicator();
 })
-
 document.querySelector("#resetOverall").addEventListener('click', () => {
     playSound('ding');
     resetOverall();
