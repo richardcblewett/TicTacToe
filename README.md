@@ -9,6 +9,6 @@ There are two players who alternate turns; X goes first and is followed by O.
 The object of the game is to get three X's or three O's in a row vertically, horizontally, or diagonally.
 
 
-# Design: 
+# Design
 - [Wireframe](https://www.figma.com/file/coHEZLvyo60yEGMAQFBzkZ/TicTacToe?node-id=0%3A1)
 - [Notes.md](/Notes.md)
