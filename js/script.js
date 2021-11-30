@@ -2,14 +2,17 @@
 class Gameboard {
     createNewGameboard = () => {   //a new gameboard class comes with a grid, but a new game needs a clean one
         this.players = [(new Player('X')), (new Player('O'))];
-        this.turn = 0;
-        this.gameDone = false;
+        this.startingOver();
     }
     resetGameboard = () => {
         this.players[0].resetGame();
         this.players[1].resetGame();
+        this.startingOver();
+    }
+    startingOver = () => {
         this.turn = 0;
         this.gameDone = false;
+        this.winningPlay = '';
     }
     gameover = () => {
         if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
@@ -37,7 +40,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 4) { diagonal1++; }
                 });
-                if (diagonal1 === 2) { return true; };
+                if (diagonal1 === 2) { ttt.winningPlay = 'D1'; return true; };
             }
         }
         const checkDiagonal2 = (target) => { //   "/"
@@ -46,7 +49,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 2) { diagonal2++; }
                 });
-                if (diagonal2 === 2) { return true; };
+                if (diagonal2 === 2) { ttt.winningPlay = 'D2'; return true; };
             }
         }
         const checkRow = (target) => { //   "-"
@@ -55,7 +58,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 1) { row++; }
                 });
-                if (row === 2) { return true; };
+                if (row === 2) { ttt.winningPlay = 'R' + target; return true; };
             }
         }
         const checkColumn = (target) => { //   "|"
@@ -64,7 +67,7 @@ class Player { //instances of this class should be part of the gameboaord class.
                 this.moves.forEach((value) => {
                     if (Math.abs(target - value) === 3) { column++; }
                 });
-                if (column === 2) { return true; };
+                if (column === 2) { ttt.winningPlay = 'C' + target; return true; };
             }
         }
         this.won = (
@@ -85,7 +88,7 @@ const playerOneTurn = playerOne.querySelector(".turn");
 const playerTwo = document.querySelector("#playerTwo");
 const playerTwoTurn = playerTwo.querySelector(".turn");
 //functions
-const setSquares = () => {
+const setSquares = () => { // sets the tiles to blank
     document.querySelectorAll(".square").forEach(elem => { elem.textContent = ''; });
 }
 const removeTurnIndicator = () => {
@@ -114,6 +117,7 @@ const updateOverall = () => {
 const finishGame = (parameter) => {
     if (ttt.gameDone === false) { //only runs once
         playSound('horn');
+        showFinalOutcome();
         updateOverall();
         ttt.gameDone = true;
     }
@@ -138,6 +142,71 @@ const playSound = (sound) => {
             break;
     }
     if (audio !== false) { audio.play(); }
+}
+const showFinalOutcome = () => {
+    let begin = [0,0];  // begin = left,top; end = right, bottom; 
+    let end = [0];
+    let values = document.querySelector("#gameboard").getBoundingClientRect();
+    console.log(ttt.winningPlay);
+    switch (ttt.winningPlay.charAt(0)) {
+        case 'R': //row
+            begin[0] = values.left;
+            end[0] = values.right;
+            switch (ttt.winningPlay.charAt(1)) {
+                case '2':
+                    begin[1] = values.top + (values.height - 10) / 6; // should give half of a square
+                case '5':
+                    begin[1] = values.top + values.height / 2; // should give halfway
+                case '8':
+                    begin[1] = values.bottom - (values.height - 10) / 6; // should give half a square from the bottom
+                default:
+                    break;
+            }
+            end[1] = begin[1];
+            break;
+        case 'C':
+            begin[1] = values.top;
+            end[1] = values.right;
+            switch (ttt.winningPlay.charAt(1)) {
+                case '4':
+                    begin[0] = values.left + (values.width - 10) / 6; // should give half of a square
+                case '5':
+                    begin[0] = values.left + values.width / 2; // should give halfway
+                case '6':
+                    begin[0] = values.right - (values.width - 10) / 6; // should give half a square from the right
+                default:
+                    break;
+            }
+            end[0] = begin[0];
+            break;
+        case 'D':
+            begin[0] = values.left;
+            end[0] = values.right;
+            switch (ttt.winningPlay.charAt(1)) {
+                case '1':
+                    begin[1] = values.top;
+                    end[1] = values.bottom;
+                case '2':
+                    begin[1] = values.bottom;
+                    end[1] = values.top;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+    console.log(begin);
+    console.log(end);
+    let drawLine = () => {
+        line = document.createElement('span');
+        line.beginPath();
+        line.moveTo(begin[0],begin[1]);
+        line.lineTo(end[0],end[1]);
+        line.stroke();
+        document.body.appendChild(line);    
+    }
+    drawLine();
 }
 //Event listeners
 document.querySelectorAll(".square").forEach(elem => {
