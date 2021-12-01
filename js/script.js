@@ -225,6 +225,8 @@ document.querySelectorAll(".square").forEach(elem => {
             removeTurnIndicator();
             elem.textContent = ttt.players[ttt.turn % 2].name;
             ttt.players[ttt.turn % 2].recordMove(parseInt(elem.id));
+            ttt.turn++;
+            addTurnIndicator();
         }
         if (ttt.players[0].won === true) {
             playerOneTurn.textContent = 'WIN!';
@@ -244,9 +246,6 @@ document.querySelectorAll(".square").forEach(elem => {
             ttt.players[0].overall[2]++;
             ttt.players[1].overall[2]++;
             finishGame();
-        } else {
-            ttt.turn++;
-            addTurnIndicator();
         }
     })
 })
