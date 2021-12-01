@@ -114,7 +114,7 @@ const updateOverall = () => {
     record = `(${overall[0]}-${overall[1]}-${overall[2]})`
     playerTwo.querySelector(".overall").textContent = record;
 }
-const finishGame = (parameter) => {
+const finishGame = () => {
     if (ttt.gameDone === false) { //only runs once
         playSound('horn');
         showFinalOutcome();
