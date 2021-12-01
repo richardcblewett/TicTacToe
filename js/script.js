@@ -146,7 +146,7 @@ const playSound = (sound) => {
 const showFinalOutcome = () => {
     let values = document.querySelector("#gameboard").getBoundingClientRect();
     let top, left, degree = 0;
-    let width = 535;
+    let width = values.width;
     //just need starting point and length and angle (if any)
     switch (ttt.winningPlay.charAt(0)) {
         case 'R': //row
@@ -190,13 +190,13 @@ const showFinalOutcome = () => {
                     degree = 45;
                     break;
                 case '2': // diagonal going up
-                    top = values.bottom;
+                    top = values.top + values.width;
                     degree = 315;
                     break;
                 default:
                     break;
             }
-            width = Math.sqrt(2 * (535 ** 2)); // the length of a line bisecting the square 
+            width = Math.sqrt(2 * (width ** 2)); // the length of a line bisecting the square 
             break;
         default:
             break;
