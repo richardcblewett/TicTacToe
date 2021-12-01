@@ -1,6 +1,6 @@
 //Classes
 class Gameboard {
-    createNewGameboard = () => {   //a new gameboard class comes with a grid, but a new game needs a clean one
+    createNewGameboard = () => {   
         this.players = [(new Player('X')), (new Player('O'))];
         this.startingOver();
     }
