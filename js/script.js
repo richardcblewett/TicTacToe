@@ -14,7 +14,7 @@ class Gameboard {
         this.gameDone = false;
         this.winningPlay = '';
     }
-    gameover = () => {
+    gameOver = () => {
         if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
     }
 }
@@ -220,7 +220,7 @@ const showFinalOutcome = () => {
 document.querySelectorAll(".square").forEach(elem => {
     elem.addEventListener('click', () => {                  //if there's no value in the area
         //check for blank space
-        if ((elem.textContent.length === 0) && (ttt.gameover() !== true)) {
+        if ((elem.textContent.length === 0) && (ttt.gameOver() !== true)) {
             playSound('swoosh');
             removeTurnIndicator();
             elem.textContent = ttt.players[ttt.turn % 2].name;
