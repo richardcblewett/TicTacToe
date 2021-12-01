@@ -18,7 +18,7 @@ class Gameboard {
         if ((this.players[0].won === true) || (this.players[1].won === true)) { return true; }
     }
 }
-class Player { //instances of this class should be part of the gameboaord class. 
+class Player { //instances of this class should be part of the gameboard class. 
     constructor(name) { this.name = name.toString(); };
     moves = [];
     won = false;
